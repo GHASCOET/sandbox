@@ -1,0 +1,112 @@
+{
+  "name": "@bouygues-telecom/trilogy",
+  "version": "0.3.14",
+  "description": "Trilogy design system for Bouygues Telecom",
+  "keywords": [
+    "bouygues",
+    "design system",
+    "framework",
+    "bulma",
+    "css"
+  ],
+  "author": "bouygues-telecom",
+  "license": "UNLICENSED",
+  "main": "lib/trilogy.js",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/trilogy-bytel/trilogy-bytel.git"
+  },
+  "files": [
+    "src",
+    "lib",
+    "docs"
+  ],
+  "scripts": {
+    "start": "yarn start:docs",
+    "start:docs": "parcel docs/index.hbs --open --no-cache",
+    "prestart": "yarn build:fonts",
+    "watch": "yarn watch:css | yarn watch:js",
+    "watch:js": "parcel watch src/index.js --no-source-maps -d lib -o trilogy.js",
+    "watch:css": "parcel watch src/full.scss --no-source-maps -d lib -o trilogy.css",
+    "test": "yarn build && yarn size && cd tests && backstop reference && backstop test",
+    "test:approve": "yarn build && cd tests && standalone -m index.html -o reference.html",
+    "build": "yarn build:docs",
+    "build:js": "parcel build src/index.js --no-minify --no-source-maps -d lib -o trilogy.js",
+    "build:css": "parcel build src/full.scss --no-source-maps -d lib -o trilogy.css",
+    "build:docs": "yarn build:fonts && yarn build:css && parcel build docs/*.hbs",
+    "build:docs:template-previews": "yarn build:docs --public-url \"..\" && gulp docs-template-previews",
+    "build:fonts": "gulp webfonts",
+    "prebuild": "yarn build:fonts",
+    "postbuild:js": "yarn build:min:js",
+    "build:min": "yarn build:css && yarn build:min:js",
+    "build:min:js": "parcel build src/index.js -d lib -o trilogy.min.js",
+    "lint": "yarn lint:js && yarn lint:css",
+    "lint:js": "eslint **.js",
+    "lint:css": "stylelint --cache src/**/*.{sc,sa,le,c}ss",
+    "lint:js:fix": "yarn lint:js --fix",
+    "lint:css:fix": "yarn lint:css --fix",
+    "footprint:css": "gulp components-size-footprint",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "autoprefixer": "9.0.2",
+    "babel-eslint": "^8.1.0",
+    "backstopjs": "3.5.16",
+    "bulma": "^0.7.1",
+    "bulma-extensions": "3.0.0",
+    "codemirror": "^5.39.2",
+    "css-byebye": "2.0.0",
+    "cssnano": "^4.1.7",
+    "eslint": "^4.17.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0",
+    "glob": "7.1.2",
+    "gulp": "3.9.1",
+    "gulp-util": "3.0.8",
+    "handlebars-helpers": "0.10.0",
+    "husky": "1.1.1",
+    "node-sass": "4.9.2",
+    "node-sass-tilde-importer": "^1.0.2",
+    "parcel-bundler": "1.9.7",
+    "parcel-plugin-handlebars-benz": "0.4.8",
+    "postcss-cli": "^4.1.1",
+    "postcss-modules": "1.3.2",
+    "puppeteer": "^1.8.0",
+    "sass-loader": "7.1.0",
+    "size-limit": "0.21.0",
+    "standalone-html": "^0.2.2",
+    "stylelint": "^9.3.0",
+    "stylelint-config-standard": "^18.0.0",
+    "util": "0.11.0",
+    "webfonts-generator": "0.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn size"
+    }
+  },
+  "size-limit": [
+    {
+      "name": "trilogy css (minified)",
+      "limit": "220 KB",
+      "path": "./lib/trilogy.css",
+      "webpack": false,
+      "gzip": false
+    },
+    {
+      "name": "trilogy css (minified, gziped)",
+      "limit": "30 KB",
+      "path": "./lib/trilogy.css",
+      "webpack": false,
+      "gzip": true
+    }
+  ],
+  "engines": {
+    "npm": "NO LONGER USED - Please use yarn"
+  },
+  "dependencies": {
+    "bulma-popover": "1.0.0"
+  }
+}
